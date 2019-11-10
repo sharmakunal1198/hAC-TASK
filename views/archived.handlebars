@@ -1,0 +1,97 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+    <link href="css/main1.css" rel="stylesheet" />
+    
+  </head>
+  <style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  margin-top: -4000px;
+}
+
+li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+li a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+li a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+</style>
+  <script>
+      function empty()
+        {
+          var x;
+          x = document.getElementById("search").value;
+          if (x != "") 
+           { 
+              document.myForm.submit();
+           }
+        }
+      function myFunction(id)
+      {
+         var x = document.getElementById(id+"+1").value;
+         document.getElementById(id).style.backgroundColor = x;
+        
+      }
+      
+  
+
+  </script>
+  <body>
+    <div class="s003">
+
+<ul>
+  <li><a href="/home">Notes</a></li>
+  <li><a href="addlabel">Add Lables</a></li>
+  <li><a class="active" href="archived">Archived</a></li>
+  <li><a class="showlabels" href="archived">Show Labels</a></li>
+</ul>
+    
+      <form  name="myForm" action="/uploadnote" method="POST">
+        {{#each data}}
+              {{#unless archived_status }}                    
+                    <div class="flex-container">
+                        <br><div><p id="{{this.id}}">{{this.note}}</p></div><br>
+                        
+                        <input type="color" id="{{this.id}}+1" value="#ff0080" onchange="myFunction({{this.id}})" >
+                        <div>
+                          <a href="/delete?id={{this.id}}"><input type="button"  name="unpined" class="button button1" value="Delete"></a>
+                          <a href="/archive?id={{this.id}}&archive={{this.archived_status}}"><input type="button"  name="archive" class="button button1" value="Restore"></a>                                                  
+                        </div>
+                    </div>
+                   
+                {{/unless}}      
+         {{/each}}     
+      </form>
+    </div>
+
+    <script src="handlebars-v4.0.5.js"></script>
+    <script src="js/extention/choices.js"></script>
+    <script>
+      const choices = new Choices('[data-trigger]',
+      {
+        searchEnabled: false,
+        itemSelectText: '',
+      });
+
+    </script>
+  </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
